@@ -1,7 +1,14 @@
 import "./App.css";
+import { Footer, MainContent, Navbar } from "./components";
 
 function App() {
-  return <>HH</>;
+  return (
+    <>
+      <Navbar />
+      <MainContent />
+      <Footer />
+    </>
+  );
 }
 
 export default App;
