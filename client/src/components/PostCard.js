@@ -1,6 +1,6 @@
 import React from "react";
 
-const PostCard = () => {
+const PostCard = ({ data }) => {
   return (
     <>
       <div class="container mx-auto my-5">
@@ -9,17 +9,16 @@ const PostCard = () => {
             <div class="border-2  rounded-lg shadow-md">
               <div class="px-6 py-5">
                 <div class="flex align-middle justify-between">
-                  <div class="up">
-                    <img
-                      class="rounded-full w-10"
-                      src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                      alt=""
-                    />
+                  <div
+                    class="up w-10 h-9 bg-cover rounded-full"
+                    style={{ backgroundImage: `url(${data.user.image})` }}
+                  >
+                    {/* <img class="rounded-full " src={data.user.image} alt="" /> */}
                   </div>
                   <div class="text-xs mx-3 w-full">
                     <p class="w-auto">
                       <a href="#" class="font-semibold">
-                        Chelsea Hagon
+                        {data.user.username}
                       </a>
                     </p>
                     <p class="w-auto">
@@ -57,16 +56,10 @@ const PostCard = () => {
               <div class="px-6 pb-6">
                 <img
                   class="w-auto pb-5"
-                  src="https://cdn.pixabay.com/photo/2018/05/22/14/00/girl-3421489_1280.jpg"
+                  src={data.image}
+                  // src="https://cdn.pixabay.com/photo/2018/05/22/14/00/girl-3421489_1280.jpg"
                 ></img>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo
-                  impedit sapiente recusandae iusto officiis dolor? Laborum
-                  quibusdam quam, quidem vel assumenda repellat inventore sint
-                  nesciunt, ullam asperiores magnam placeat eveniet. Aliquam
-                  voluptatibus assumenda distinctio veniam quam tempora modi
-                  aperiam nemo voluptate reprehenderit quidem, nisi vero est.
-                </p>
+                <p>{data.textPost}</p>
               </div>
             </div>
           </div>

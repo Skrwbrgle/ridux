@@ -1,10 +1,10 @@
 import React from "react";
-import PostCard from "../components/PostCard";
+import { ListPosts } from "../components";
 
 const Home_page = () => {
   return (
     <>
-      <PostCard />
+      <ListPosts />
     </>
   );
 };
