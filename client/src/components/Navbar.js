@@ -57,6 +57,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const access = localStorage.getItem("access_token");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -155,8 +156,10 @@ export default function Navbar() {
             Home
           </a>
           <a
-            href="posting"
-            className="text-sm font-semibold leading-6 text-gray-900"
+            href="/posting"
+            className={`text-sm font-semibold leading-6 text-gray-900 ${
+              access ? "" : "hidden"
+            }`}
           >
             Posting
           </a>
@@ -170,9 +173,11 @@ export default function Navbar() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <a
             href="/login-register"
-            className="text-sm font-semibold leading-6 text-gray-900"
+            onClick={() => localStorage.removeItem("access_token")}
+            className="text-sm font-semibold leading-6 hover:bg-indigo-400 bg-indigo-700 px-3 py-1 rounded-3xl text-white"
           >
-            Log in <span aria-hidden="true">&rarr;</span>
+            {access ? "Log out" : "Log in"}
+            <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
       </nav>
@@ -205,59 +210,38 @@ export default function Navbar() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                <Disclosure as="div" className="-mx-3">
-                  {({ open }) => (
-                    <>
-                      <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                        Product
-                        <ChevronDownIcon
-                          className={classNames(
-                            open ? "rotate-180" : "",
-                            "h-5 w-5 flex-none"
-                          )}
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
-                          <Disclosure.Button
-                            key={item.name}
-                            as="a"
-                            href={item.href}
-                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            {item.name}
-                          </Disclosure.Button>
-                        ))}
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
                 <a
-                  href="#"
+                  href="/"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Features
+                  Home
+                </a>
+                <a
+                  href="/posting"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Posting
                 </a>
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Marketplace
+                  About
                 </a>
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Company
+                  Contact us
                 </a>
               </div>
               <div className="py-6">
                 <a
                   href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  onClick={() => localStorage.removeItem("access_token")}
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 hover:bg-indigo-400 bg-indigo-700 px-3 py-1 rounded-3xl text-white text-center"
                 >
-                  Log in
+                  {access ? "Log out" : "Log in"}
                 </a>
               </div>
             </div>
