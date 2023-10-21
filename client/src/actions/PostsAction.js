@@ -3,6 +3,7 @@ import axios from "axios";
 export const GET_LIST_POSTS = "GET_LIST_POSTS";
 export const GET_LIST_PUBLIS = "GET_LIST_PUBLIS";
 export const PUBLIS_POST = "PUBLIS_POST";
+export const ADD_POST = "ADD_POST";
 
 export const getListPosts = () => {
   return (dispacth) => {
@@ -110,7 +111,6 @@ export const publisPost = (data) => {
       data: data,
     })
       .then((res) => {
-        // console.log(`3. Berhasil Get Data : `, res.data);
         dispacth({
           type: PUBLIS_POST,
           payload: {
@@ -124,6 +124,52 @@ export const publisPost = (data) => {
         console.log(`3. Gagal Get Data : `, err.message);
         dispacth({
           type: PUBLIS_POST,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: err.message,
+          },
+        });
+      });
+  };
+};
+
+export const addPost = (data) => {
+  return (dispacth) => {
+    //loading
+    dispacth({
+      type: ADD_POST,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
+    const accessToken = localStorage.getItem("access_token");
+    //get API
+    axios({
+      method: "POST",
+      url: `http://localhost:3000/posts/create`,
+      timeout: 120000,
+      headers: { Authorization: `${accessToken}` },
+      data: data,
+    })
+      .then((res) => {
+        console.log(`3. Berhasil Get Data : `, res.data);
+        dispacth({
+          type: ADD_POST,
+          payload: {
+            loading: false,
+            data: res.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(`3. Gagal Get Data : `, err.message);
+        dispacth({
+          type: ADD_POST,
           payload: {
             loading: false,
             data: false,

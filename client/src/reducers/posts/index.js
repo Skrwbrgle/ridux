@@ -2,6 +2,7 @@ import {
   GET_LIST_POSTS,
   GET_LIST_PUBLIS,
   PUBLIS_POST,
+  ADD_POST,
 } from "../../actions/PostsAction";
 
 const initialState = {
@@ -16,6 +17,10 @@ const initialState = {
   publisResult: false,
   publisLoading: false,
   publisError: false,
+
+  addPostResult: false,
+  addPostLoading: false,
+  addPostError: false,
 };
 
 const PostsReducer = (state = initialState, action) => {
@@ -42,6 +47,14 @@ const PostsReducer = (state = initialState, action) => {
         publisResult: action.payload.data,
         publisLoading: action.payload.loading,
         publisError: action.payload.errorMessage,
+      };
+
+    case ADD_POST:
+      return {
+        ...state,
+        addPostResult: action.payload.data,
+        addPostLoading: action.payload.loading,
+        addPostError: action.payload.errorMessage,
       };
 
     default:

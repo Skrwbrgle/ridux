@@ -11,7 +11,7 @@ const AtributeTabel = ({ data }) => {
     data.status === "1" ? true : false
   );
   const { publisResult } = useSelector((state) => state.PostsReducer);
-  const dispacth = useDispatch();
+  const dispatch = useDispatch();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -24,10 +24,10 @@ const AtributeTabel = ({ data }) => {
     e.preventDefault();
     if (isChecked) {
       // Lakukan sesuatu jika checkbox dicentang
-      dispacth(publisPost({ status: status, id: postId }));
+      dispatch(publisPost({ status: status, id: postId }));
     } else {
       // Lakukan sesuatu jika checkbox tidak dicentang
-      dispacth(publisPost({ status: status, id: postId }));
+      dispatch(publisPost({ status: status, id: postId }));
     }
   };
 
@@ -45,6 +45,7 @@ const AtributeTabel = ({ data }) => {
       <table className="w-full whitespace-nowrap">
         <tbody>
           <tr
+            key={data}
             tabindex="0"
             className="focus:outline-none h-16 border border-gray-100 rounded"
           >
