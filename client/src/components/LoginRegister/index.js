@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Login, register } from "../../actions/UserAction";
 
@@ -23,26 +23,28 @@ function LoginRegister() {
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
 
-    // Tambahkan logika otentikasi di sini
     dispacth(Login({ email: email, password: password }));
-    if (loginResult) {
-      window.location.href = "/";
-      return;
-    }
   };
 
   const handleSubmitRegis = async (e) => {
     e.preventDefault();
 
-    // Tambahkan logika otentikasi di sini
     dispacth(
       register({ username: username, email: email, password: password })
     );
+  };
+
+  useEffect(() => {
+    if (loginResult) {
+      window.location.href = "/";
+    }
+  }, [loginResult]);
+
+  useEffect(() => {
     if (registerResult) {
       window.location.href = "/login-register";
-      return;
     }
-  };
+  }, [registerResult]);
 
   return (
     <div>

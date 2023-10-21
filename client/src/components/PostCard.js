@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 const PostCard = ({ data }) => {
   return (
@@ -23,7 +24,7 @@ const PostCard = ({ data }) => {
                     </p>
                     <p class="w-auto">
                       <a href="#" class="font-light">
-                        December 9 at 11:43 AM
+                        {moment(data.updatedAt).format("MMMM D [at] h:mm A")}
                       </a>
                     </p>
                   </div>

@@ -48,3 +48,7 @@
 .translate-x-0 {
   transform: translateX(0);
 }
+
+.checkbox:checked + .check-icon {
+  display: flex;
+}
