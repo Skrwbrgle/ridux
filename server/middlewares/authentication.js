@@ -11,14 +11,11 @@ const authentication = (req, res, next) => {
           message: "Unauthorized token!",
         });
       } else {
-        let tokenUser = verifyToken(access_token);
+        const token = access_token.slice(7);
+        let tokenUser = verifyToken(token);
         req.userData = tokenUser;
         next();
       }
-      // let tokenUser = verifyToken(access_token);
-      // req.userData = tokenUser;
-
-      // next();
     } catch (e) {
       res.status(401).json({
         message: "Unauthorized token!",
