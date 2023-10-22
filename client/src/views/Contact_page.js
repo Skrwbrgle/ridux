@@ -41,6 +41,10 @@ const Contact_page = () => {
             </div>
             <div className="my-2 w-1/2 lg:w-1/4">
               <button
+                onClick={() => {
+                  window.location.href =
+                    "mailto:alamat-email-yogadbc117087@example.com";
+                }}
                 className="uppercase text-sm font-bold tracking-wide bg-blue-900 text-gray-100 p-3 rounded-lg w-full 
                       focus:outline-none focus:shadow-outline"
               >

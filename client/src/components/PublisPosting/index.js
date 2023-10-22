@@ -7,6 +7,7 @@ import {
   editPost,
   getListPublis,
 } from "../../actions/PostsAction";
+import Loading from "../Loading";
 import AtributeTabel from "../AtributeTabel";
 
 function PublisPosts() {
@@ -24,7 +25,7 @@ function PublisPosts() {
     detailPostResult,
     editPostResult,
   } = useSelector((state) => state.PostsReducer);
-  const publisPosts = getListPublisResult.posts;
+  // const publisPosts = getListPublisResult.posts;
   const dispatch = useDispatch();
 
   const handleSubmitPost = async (e) => {
@@ -184,12 +185,12 @@ function PublisPosts() {
             </button>
           </div>
           <div className="mt-7 overflow-x-auto">
-            {publisPosts ? (
-              publisPosts.map((post) => (
-                <AtributeTabel key={post.id} data={post} />
-              ))
+            {getListPublisResult ? (
+              getListPublisResult.posts
+                .filter((v) => v !== null)
+                .map((post) => <AtributeTabel key={post.id} data={post} />)
             ) : getListPublisLoading ? (
-              <p>loading . . .</p>
+              <Loading />
             ) : (
               <p>{getListsPublisError ? getListsPublisError : "Data Kosong"}</p>
             )}

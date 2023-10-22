@@ -4,8 +4,8 @@ import moment from "moment";
 const PostCard = ({ data }) => {
   return (
     <>
-      <div class="container mx-auto my-5">
-        <div class="mx-2 px-8 py-6 ">
+      <div class="container mx-auto my-2">
+        <div class="mx-2 px-8 pt-5 ">
           <div class="w-auto">
             <div class="border-2  rounded-lg shadow-md">
               <div class="px-6 py-5">

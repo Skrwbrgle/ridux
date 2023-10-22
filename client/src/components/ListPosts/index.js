@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListPosts } from "../../actions/PostsAction";
 import PostCard from "../PostCard";
+import Loading from "../Loading";
 
 function ListPosts() {
   const { getListPostsResult, getListPostsLoading, getListsPostsError } =
@@ -21,9 +22,9 @@ function ListPosts() {
           .filter((v) => v.status === "1")
           .map((post) => <PostCard data={post} />)
       ) : getListPostsLoading ? (
-        <p>Loading . . .</p>
+        <Loading />
       ) : (
-        <p>{getListsPostsError ? getListsPostsError : "Data kosong"}</p>
+        <p>{getListsPostsError ? getListsPostsError : "Data Empyt"}</p>
       )}
     </div>
   );
