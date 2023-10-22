@@ -55,10 +55,12 @@ const PostCard = ({ data }) => {
                 </div>
               </div>
               <div class="px-6 pb-6">
+                <h1 className="text-3xl pb-3 font-semibold text-indigo-800">
+                  {data.title}
+                </h1>
                 <img
-                  class="w-auto pb-5"
+                  class={`w-auto py-5 ${data.image === null ? "hidden" : ""}`}
                   src={data.image}
-                  // src="https://cdn.pixabay.com/photo/2018/05/22/14/00/girl-3421489_1280.jpg"
                 ></img>
                 <p>{data.textPost}</p>
               </div>

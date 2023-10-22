@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { publisPost, getListPublis } from "../actions/PostsAction";
+import {
+  publisPost,
+  getListPublis,
+  deletePost,
+  editPost,
+  detailPost,
+} from "../actions/PostsAction";
 
 const AtributeTabel = ({ data }) => {
   const [status, setStatus] = useState("");
   const [postId, setPostId] = useState(data.id);
+  const [isChecked, setIsChecked] = useState(Number(data.status));
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isChecked, setIsChecked] = useState(
-    data.status === "1" ? true : false
-  );
-  const { publisResult } = useSelector((state) => state.PostsReducer);
+  const { publisPostResult } = useSelector((state) => state.PostsReducer);
   const dispatch = useDispatch();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
     setStatus(!isChecked ? "1" : "0");
   };
@@ -32,13 +36,12 @@ const AtributeTabel = ({ data }) => {
   };
 
   useEffect(() => {
-    if (publisResult) {
+    if (publisPostResult) {
       setPostId(data.id);
       setStatus("");
-      setIsChecked(data.status);
-      window.location.href = "/posting";
+      setIsChecked(Number(data.status));
     }
-  }, [publisResult]);
+  }, [publisPostResult]);
 
   return (
     <>
@@ -97,9 +100,11 @@ const AtributeTabel = ({ data }) => {
             <td className="pl-10">
               <button
                 onClick={handlePublis}
-                className="focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none"
+                className={`focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3  ${
+                  data.status === "1" ? "bg-red-200 px-6" : "bg-gray-100 px-5"
+                } rounded hover:bg-gray-200 focus:outline-none`}
               >
-                Publis
+                {data.status === "1" ? "Draft" : "Publis"}
               </button>
             </td>
             <td>
@@ -142,15 +147,17 @@ const AtributeTabel = ({ data }) => {
                   </svg>
                 </button>
                 {isDropdownOpen && (
-                  <div className="dropdown-content bg-white shadow w-24 absolute z-30 right-0 mr-6">
+                  <div className="dropdown-content block bg-white shadow w-24 absolute z-30 right-0 mr-6">
                     <div
                       tabindex="0"
+                      onClick={() => dispatch(detailPost(data))}
                       className="focus:outline-none focus:text-indigo-600 text-xs w-full hover:bg-indigo-700 py-4 px-4 cursor-pointer hover:text-white"
                     >
                       <p>Edit</p>
                     </div>
                     <div
                       tabindex="0"
+                      onClick={() => dispatch(deletePost(data))}
                       className="focus:outline-none focus:text-indigo-600 text-xs w-full hover:bg-indigo-700 py-4 px-4 cursor-pointer hover:text-white"
                     >
                       <p>Delete</p>

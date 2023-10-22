@@ -3,7 +3,11 @@ import axios from "axios";
 export const GET_LIST_POSTS = "GET_LIST_POSTS";
 export const GET_LIST_PUBLIS = "GET_LIST_PUBLIS";
 export const PUBLIS_POST = "PUBLIS_POST";
+export const DETAIL_POST = "DETAIL_POST";
+export const CLEAR_DETAIL_POST = "CLEAR_DETAIL_POST";
 export const ADD_POST = "ADD_POST";
+export const EDIT_POST = "EDIT_POST";
+export const DELETE_POST = "DELETE_POST";
 
 export const getListPosts = () => {
   return (dispacth) => {
@@ -121,7 +125,6 @@ export const publisPost = (data) => {
         });
       })
       .catch((err) => {
-        console.log(`3. Gagal Get Data : `, err.message);
         dispacth({
           type: PUBLIS_POST,
           payload: {
@@ -156,7 +159,6 @@ export const addPost = (data) => {
       data: data,
     })
       .then((res) => {
-        console.log(`3. Berhasil Get Data : `, res.data);
         dispacth({
           type: ADD_POST,
           payload: {
@@ -167,7 +169,6 @@ export const addPost = (data) => {
         });
       })
       .catch((err) => {
-        console.log(`3. Gagal Get Data : `, err.message);
         dispacth({
           type: ADD_POST,
           payload: {
@@ -177,5 +178,104 @@ export const addPost = (data) => {
           },
         });
       });
+  };
+};
+
+export const editPost = (data) => {
+  return (dispacth) => {
+    //loading
+    dispacth({
+      type: EDIT_POST,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
+    const accessToken = localStorage.getItem("access_token");
+    //get API
+    axios({
+      method: "PUT",
+      url: `http://localhost:3000/posts/update?postId=${data.id}`,
+      timeout: 120000,
+      headers: { Authorization: `${accessToken}` },
+      data: data,
+    })
+      .then((res) => {
+        dispacth({
+          type: EDIT_POST,
+          payload: {
+            loading: false,
+            data: res.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((err) => {
+        dispacth({
+          type: EDIT_POST,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: err.message,
+          },
+        });
+      });
+  };
+};
+
+export const deletePost = (data) => {
+  return (dispacth) => {
+    //loading
+    dispacth({
+      type: DELETE_POST,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
+    const accessToken = localStorage.getItem("access_token");
+    //get API
+    axios({
+      method: "DELETE",
+      url: `http://localhost:3000/posts/delete?postId=${data.id}`,
+      timeout: 120000,
+      headers: { Authorization: `${accessToken}` },
+    })
+      .then((res) => {
+        console.log("delete data: ", res.data);
+        dispacth({
+          type: DELETE_POST,
+          payload: {
+            loading: false,
+            data: res.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((err) => {
+        dispacth({
+          type: DELETE_POST,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: err.message,
+          },
+        });
+      });
+  };
+};
+
+export const detailPost = (data) => {
+  return (dispacth) => {
+    dispacth({
+      type: DETAIL_POST,
+      payload: {
+        data: data,
+      },
+    });
   };
 };

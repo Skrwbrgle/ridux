@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost, getListPublis } from "../../actions/PostsAction";
+import {
+  addPost,
+  clearDetailPost,
+  detailPost,
+  editPost,
+  getListPublis,
+} from "../../actions/PostsAction";
 import AtributeTabel from "../AtributeTabel";
 
 function PublisPosts() {
@@ -13,6 +19,10 @@ function PublisPosts() {
     getListPublisLoading,
     getListsPublisError,
     addPostResult,
+    deletePostResult,
+    publisPostResult,
+    detailPostResult,
+    editPostResult,
   } = useSelector((state) => state.PostsReducer);
   const publisPosts = getListPublisResult.posts;
   const dispatch = useDispatch();
@@ -23,13 +33,27 @@ function PublisPosts() {
     if (id) {
       //update
       console.log("update");
+      dispatch(
+        editPost({ id: id, title: title, textBody: textBody, image: image })
+      );
     } else {
       dispatch(addPost({ title: title, textPost: textBody, image: image }));
     }
   };
 
   useEffect(() => {
-    //call action getListPosts
+    if (deletePostResult) {
+      dispatch(getListPublis());
+    }
+  }, [deletePostResult, dispatch]);
+
+  useEffect(() => {
+    if (publisPostResult) {
+      dispatch(getListPublis());
+    }
+  }, [publisPostResult, dispatch]);
+
+  useEffect(() => {
     dispatch(getListPublis());
   }, [dispatch]);
 
@@ -42,6 +66,32 @@ function PublisPosts() {
       modalHandler();
     }
   }, [addPostResult, dispatch]);
+
+  useEffect(() => {
+    if (editPostResult) {
+      dispatch(getListPublis());
+      setTitle("");
+      setTextBody("");
+      setImage("");
+      modalHandler();
+    }
+  }, [editPostResult, dispatch]);
+
+  useEffect(() => {
+    if (detailPostResult) {
+      setTitle(detailPostResult.title);
+      setTextBody(detailPostResult.textPost);
+      setImage(detailPostResult.image);
+      setId(detailPostResult.id);
+      modalHandler(true);
+    } else {
+      setTitle("");
+      setTextBody("");
+      setImage("");
+      setId("");
+      modalHandler(false);
+    }
+  }, [detailPostResult, dispatch]);
 
   function modalHandler(val) {
     let modal = document.getElementById("modal");
@@ -125,7 +175,7 @@ function PublisPosts() {
               </a>
             </div>
             <button
-              onClick={() => modalHandler(true)}
+              onClick={() => dispatch(detailPost({}))}
               className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded"
             >
               <p className="text-sm font-medium leading-none text-white">
@@ -209,21 +259,26 @@ function PublisPosts() {
                 />
               </div>
               <div className="flex items-center justify-start w-full">
-                <button className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm">
+                <button
+                  className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm"
+                  type="submit"
+                >
                   Submit
                 </button>
                 <button
                   className="focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-400 ml-3 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm"
-                  onClick={() => modalHandler()}
+                  type="button"
+                  onClick={() => dispatch(detailPost(false))}
                 >
                   Cancel
                 </button>
               </div>
               <button
                 className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
-                onClick={() => modalHandler()}
+                onClick={() => dispatch(detailPost(false))}
                 aria-label="close modal"
                 role="button"
+                type="button"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
