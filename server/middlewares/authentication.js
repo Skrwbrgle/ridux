@@ -1,15 +1,24 @@
 const { verifyToken } = require("../helpers/jwt");
-const tokenBlacklist = new Set("role=2");
+const tokenBlacklist = new Set();
 
 const authentication = (req, res, next) => {
-  const access_token = req.headers.access_token;
+  const access_token = req.headers.authorization;
 
   if (access_token) {
     try {
-      let tokenUser = verifyToken(access_token);
-      req.userData = tokenUser;
+      if (tokenBlacklist.has(access_token)) {
+        res.status(401).json({
+          message: "Unauthorized token!",
+        });
+      } else {
+        let tokenUser = verifyToken(access_token);
+        req.userData = tokenUser;
+        next();
+      }
+      // let tokenUser = verifyToken(access_token);
+      // req.userData = tokenUser;
 
-      next();
+      // next();
     } catch (e) {
       res.status(401).json({
         message: "Unauthorized token!",

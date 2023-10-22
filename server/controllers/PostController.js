@@ -71,7 +71,7 @@ class PostController {
         }
       );
 
-      resultPost === 1
+      resultPost[0] === 1
         ? res.status(200).json({ message: `Successfully updated!` })
         : res.status(404).json({ message: `Post with ${id} can not update!` });
     } catch (err) {
@@ -113,7 +113,7 @@ class PostController {
   static async delete(req, res) {
     try {
       const id = +req.userData.id;
-      const postId = req.query;
+      const { postId } = req.query;
 
       if (id === 0) {
         res.status(401).json({ message: `Access denied` });
@@ -133,7 +133,6 @@ class PostController {
             .json({ message: `Successfully deleted post with id ${postId}` })
         : res.status(404).json({ message: `Can't found post id ${postId}` });
     } catch (err) {
-      console.log(err);
       res.status(500).json(err);
     }
   }
