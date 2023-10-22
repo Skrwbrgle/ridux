@@ -68,7 +68,7 @@ export const getListPublis = () => {
       method: "GET",
       url: "http://localhost:3000/users",
       timeout: 120000,
-      headers: { Authorization: `${accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     })
       .then((res) => {
         dispacth({
@@ -111,7 +111,7 @@ export const publisPost = (data) => {
       method: "PUT",
       url: `http://localhost:3000/posts/status?postId=${data.id}`,
       timeout: 120000,
-      headers: { Authorization: `${accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
       data: data,
     })
       .then((res) => {
@@ -155,7 +155,7 @@ export const addPost = (data) => {
       method: "POST",
       url: `http://localhost:3000/posts/create`,
       timeout: 120000,
-      headers: { Authorization: `${accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
       data: data,
     })
       .then((res) => {
@@ -199,7 +199,7 @@ export const editPost = (data) => {
       method: "PUT",
       url: `http://localhost:3000/posts/update?postId=${data.id}`,
       timeout: 120000,
-      headers: { Authorization: `${accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
       data: data,
     })
       .then((res) => {
@@ -243,7 +243,7 @@ export const deletePost = (data) => {
       method: "DELETE",
       url: `http://localhost:3000/posts/delete?postId=${data.id}`,
       timeout: 120000,
-      headers: { Authorization: `${accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     })
       .then((res) => {
         console.log("delete data: ", res.data);

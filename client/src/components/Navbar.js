@@ -1,10 +1,54 @@
 import { Fragment, useState } from "react";
 import { Dialog, Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Swal from "sweetalert2";
 
 export default function Navbar() {
   const access = localStorage.getItem("access_token");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton:
+          "mx-2 py-1.5 px-4 transition-colors bg-green-600 border active:bg-green-800 font-medium border-green-700 text-white rounded-lg hover:bg-green-700 disabled:opacity-50",
+        cancelButton:
+          "mx-2 py-1.5 px-4 transition-colors bg-red-500 border active:bg-red-800 font-medium border-red-700 text-white rounded-lg hover:bg-red-700 disabled:opacity-50",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("access_token");
+          swalWithBootstrapButtons.fire(
+            "Deleted!",
+            "Your file has been deleted.",
+            "success"
+          );
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            "Cancelled",
+            "Your imaginary file is safe :)",
+            "error"
+          );
+        }
+      });
+  };
 
   return (
     <header className="bg-white">
@@ -139,7 +183,7 @@ export default function Navbar() {
               <div className="py-6">
                 <a
                   href="#"
-                  onClick={() => localStorage.removeItem("access_token")}
+                  onClick={() => handleLogout()}
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 hover:bg-indigo-400 bg-indigo-700 px-3 py-1 rounded-3xl text-white text-center"
                 >
                   {access ? "Log out" : "Log in"}
